@@ -1,4 +1,4 @@
-.handsontable {
+:root {
   /* Base surfaces */
   --hot-surface-color: #fff;
   --hot-header-bg-color: #f0f0f0;
@@ -31,4 +31,9 @@
   --hot-fill-border-color: red;
   --hot-collapse-shadow-color: rgba(0, 0, 0, 0.4);
   --hot-indicator-ring-shadow-color: rgba(238, 238, 238, 1);
+  --hot-mobile-editor-bg-color: #f8f8f8;
+  --hot-mobile-editor-border-color: #ebebeb;
+  --hot-mobile-textarea-border-color: #a1a1a1;
+  --hot-mobile-arrow-color: #288ffe;
+  --hot-mobile-arrow-active-color: #cfcfcf;
 }
