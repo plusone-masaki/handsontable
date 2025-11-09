@@ -34,10 +34,11 @@ module.exports.create = function create(envArgs) {
     c.plugins.push(
       new UglifyJSPlugin({
         uglifyOptions: {
-          compressor: {
+          compress: {
             pure_getters: true,
             unsafe: true,
             unsafe_comps: true,
+            collapse_vars: false, // avoid uglify-es `sym.definition` crashes on ES2015 const hoisting
             warnings: false,
           },
           mangle: true,

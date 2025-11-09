@@ -58,7 +58,8 @@ module.exports = {
         ],
         modules: false,
         debug: false,
-        useBuiltIns: 'entry'
+        useBuiltIns: 'entry',
+        corejs: 2
       }]
   ],
   plugins: [
@@ -137,7 +138,8 @@ module.exports = {
             ],
             modules: false,
             debug: false,
-            useBuiltIns: 'entry'
+            useBuiltIns: 'entry',
+            corejs: 2
           }]
       ],
       plugins: [

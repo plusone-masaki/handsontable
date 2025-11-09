@@ -18,10 +18,11 @@ module.exports.create = function create() {
 
     config.plugins = [
       new webpack.optimize.UglifyJsPlugin({
-        compressor: {
+        compress: {
           pure_getters: true,
           unsafe: true,
           unsafe_comps: true,
+          collapse_vars: false, // mirror main bundle workaround for uglify-es crash
           warnings: false,
           screw_ie8: true,
         },
