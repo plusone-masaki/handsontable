@@ -23,7 +23,7 @@ import { getPlugin } from './plugins';
 import { getRenderer } from './renderers';
 import { getValidator } from './validators';
 import { randomString } from './helpers/string';
-import { rangeEach, rangeEachReverse } from './helpers/number';
+import { rangeEach, rangeEachReverse, isNumericLike } from './helpers/number';
 import TableView from './tableView';
 import DataSource from './dataSource';
 import { translateRowsToColumns, cellMethodLookupFactory, spreadsheetColumnLabel } from './helpers/data';
@@ -893,8 +893,6 @@ export default function Core(rootElement, userSettings, rootInstanceSymbol = fal
 
   function validateChanges(changes, source, callback) {
     const waitingForValidator = new ValidatorsQueue();
-    const isNumericData = value => value.length > 0 && /^\s*[+-.]?\s*(?:(?:\d+(?:(\.|,)\d+)?(?:e[+-]?\d+)?)|(?:0x[a-f\d]+))\s*$/.test(value);
-
     waitingForValidator.onQueueEmpty = resolve;
 
     for (let i = changes.length - 1; i >= 0; i--) {
@@ -905,7 +903,7 @@ export default function Core(rootElement, userSettings, rootInstanceSymbol = fal
         const col = datamap.propToCol(prop);
         const cellProperties = instance.getCellMeta(row, col);
 
-        if (cellProperties.type === 'numeric' && typeof newValue === 'string' && isNumericData(newValue)) {
+        if (cellProperties.type === 'numeric' && typeof newValue === 'string' && isNumericLike(newValue)) {
           changes[i][3] = getParsedNumber(newValue);
         }
 

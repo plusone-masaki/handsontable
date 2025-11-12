@@ -1,18 +1,48 @@
+/* eslint-disable jsdoc/require-description-complete-sentence */
 /**
- * Checks if value of n is a numeric one
- * http://jsperf.com/isnan-vs-isnumeric/4
- * @param n
+ * Checks if the passed value is numeric one.
+ *
+ * @param {*} value The value to check.
+ * @param {string[]} additionalDelimiters An additional delimiters to be used while checking the numeric value.
  * @returns {boolean}
  */
-export function isNumeric(n) {
-  /* eslint-disable */
-  var t = typeof n;
+export function isNumeric(value, additionalDelimiters = []) {
+  const type = typeof value;
 
-  return t == 'number' ? !isNaN(n) && isFinite(n) :
-    t == 'string' ? !n.length ? false :
-      n.length == 1 ? /\d/.test(n) :
-        /^\s*[+-]?\s*(?:(?:\d+(?:\.\d+)?(?:e[+-]?\d+)?)|(?:0x[a-f\d]+))\s*$/i.test(n) :
-      t == 'object' ? !!n && typeof n.valueOf() == 'number' && !(n instanceof Date) : false;
+  if (type === 'number') {
+    return !isNaN(value) && isFinite(value);
+
+  } else if (type === 'string') {
+    if (value.length === 0) {
+      return false;
+
+    } else if (value.length === 1) {
+      return /\d/.test(value);
+    }
+
+    const delimiter = Array.from(new Set(['.', ...additionalDelimiters]))
+      .map(d => `\\${d}`)
+      .join('|');
+
+    return new RegExp(`^[+-]?\\s*(((${delimiter})?\\d+((${delimiter})\\d+)?(e[+-]?\\d+)?)|(0x[a-f\\d]+))$`, 'i')
+      .test(value.trim());
+
+  } else if (type === 'object') {
+    return !!value && typeof value.valueOf() === 'number' && !(value instanceof Date);
+  }
+
+  return false;
+}
+/* eslint-enable jsdoc/require-description-complete-sentence */
+
+/**
+ * Checks if the passed value is numeric-like value (allows comma as delimiter).
+ *
+ * @param {*} value The value to check.
+ * @returns {boolean}
+ */
+export function isNumericLike(value) {
+  return isNumeric(value, [',']);
 }
 
 /**
